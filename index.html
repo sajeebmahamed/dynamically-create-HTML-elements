@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .user{
+            background-color: lightcoral;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 20px;
+            box-shadow: 5px 5px 10px lightslategray;
+        }
+        .todo-style{
+            background-color: slateblue;
+            text-align: center;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 20px;
+            box-shadow: 5px 5px 10px lightslategray;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="user-container">
+
+    </div>
+    <div id="todo">
+        
+    </div>
+
+    <script>
+        fetch("https://jsonplaceholder.typicode.com/users")
+        .then(res => res.json())
+        .then(data => showUserInfo(data));
+
+        function showUserInfo(data){
+            let userInfo = "";
+            data.forEach(user => {
+                userInfo = userInfo + ` <div class = "user">
+                <h2> Name : ${user.name} </h2> 
+                <p> Email : ${user.email} </p>
+                <p> Street : ${user.address.street}  City : ${user.address.city} Zipcode : ${user.address.zipcode} </p>
+                </div> `
+            });
+            const ul = document.getElementById("user-container");
+            ul.innerHTML = userInfo;
+        }
+        fetch("https://jsonplaceholder.typicode.com/todos")
+        .then(res => res.json())
+        .then(data => userInfo(data));
+
+        function userInfo(data){
+            let todoLists = "";
+            data.forEach(todo => {
+                if(todo.completed === true){
+                    status = `<h2> Status : Finished </h2>`
+                }
+                else{
+                    status = `<h2> Status : Unfinished </h2>`
+                }
+                todoLists = todoLists + ` <div class = "todo-style">
+                    <h2> Id : ${todo.id} </h2>
+                    <h2> Title : ${todo.title} </h2>
+                    ${status}
+                </div>`
+            });
+            const info = document.getElementById("todo");
+            info.innerHTML = todoLists;
+        }
+    </script>
+</body>
+</html>
